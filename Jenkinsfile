@@ -4,23 +4,25 @@ pipeline {
 
     stages {
 
-    
-
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '''
+                    python3 -m venv venv
+                    ./venv/bin/pip install --upgrade pip
+                    ./venv/bin/pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Test') {
             steps {
-                sh 'pytest'
+                sh './venv/bin/pytest'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'python app.py'
+                sh './venv/bin/python app.py'
             }
         }
     }
